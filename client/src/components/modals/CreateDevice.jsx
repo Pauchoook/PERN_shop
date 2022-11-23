@@ -53,7 +53,7 @@ const CreateDevice = observer(({show, onHide}) => {
          setFile(null);
          devices.setSelectedBrand({});
          devices.setSelectedType({});
-         onHide()
+         onHide();
       });
    }
 

@@ -31,7 +31,7 @@ function DeleteBrand({show, onHide}) {
             <Form.Control 
                value={value}
                onChange={(e) => setValue(e.target.value)}
-               placeholder='Введите номер бренда'
+               placeholder='Введите название бренда'
             />
            </Form>
          </Modal.Body>

@@ -12,6 +12,11 @@ export const fetchTypes = async () => {
    return data;
 }
 
+export const deleteType = async (name) => {
+   const {data} = await $authHost.delete(`api${TYPE_ROUTE}/delete`, {params: {name}});
+   return data;
+}
+
 export const createBrand = async (brand) => {
    const {data} = await $authHost.post(`api${BRAND_ROUTE}`, brand);
    return data;
@@ -19,6 +24,11 @@ export const createBrand = async (brand) => {
 
 export const fetchBrands = async () => {
    const {data} = await $authHost.get(`api${BRAND_ROUTE}`);
+   return data;
+}
+
+export const deleteBrand = async (name) => {
+   const {data} = await $authHost.delete(`api${BRAND_ROUTE}/delete`, {params: {name}});
    return data;
 }
 
@@ -41,17 +51,5 @@ export const fetchDeviceOne = async (id) => {
 
 export const deleteDevice = async (id) => {
    const {data} = await $authHost.delete(`api${DEVICE_ROUTE}/${id}`);
-   return data;
-}
-
-export const deleteType = async (name) => {
-   const {data} = await $authHost.delete(`api${TYPE_ROUTE}/delete`, {params: {
-      name
-   }});
-   return data;
-}
-
-export const deleteBrand = async (id) => {
-   const {data} = await $authHost.delete(`api${BRAND_ROUTE}/delete/${id}`);
    return data;
 }

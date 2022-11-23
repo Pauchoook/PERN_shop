@@ -11,7 +11,7 @@ import { fetchBrands, fetchDevices, fetchTypes } from '../http/deviceAPI';
 import Pages from '../components/Pages';
 
 const Shop = observer((props) => {
-   const {devices} = useContext(Context);
+   const {devices, basket, user} = useContext(Context);
 
    useEffect(() => {
       fetchTypes().then(data => devices.setTypes(data));

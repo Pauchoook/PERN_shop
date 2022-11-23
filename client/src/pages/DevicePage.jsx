@@ -1,18 +1,48 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { Button, Card, Col, Container, Image, Row } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
+import { Context } from '../index';
 import bigStar from '../assets/bigStar.svg';
 import { fetchDeviceOne } from '../http/deviceAPI';
+import { addDeviceBasket, fetchBasketDevices } from '../http/basketAPI';
+import Loader from '../components/Loader';
+import { observer } from 'mobx-react-lite';
 
-function DevicePage(props) {
-   const [device, setDevice] = useState({info: []})
+const DevicePage = observer((props) => {
+   const {user, basket} = useContext(Context);
    const {id} = useParams();
+   const [device, setDevice] = useState({info: []});
+   const [isLoading, setIsLoading] = useState(true);
+   const [hasBasket, setHasBasket] = useState(false);
 
    useEffect(() => {
-      fetchDeviceOne(id).then(data => setDevice(data));
+      fetchDeviceOne(id)
+         .then(data => setDevice(data))
+         .finally(() => setIsLoading(false));;
    }, []);
+
+   useEffect(() => {
+      if (user.isAuth) {
+         fetchBasketDevices(user.id)
+            .then(data => {
+               basket.setDevices(data);
+               setHasBasket(basket.devices.some(device => device.deviceId === +id))
+            });
+      }
+   }, [hasBasket]);
+
+   const addDevice = async () => {
+      if (user.isAuth) {
+         await addDeviceBasket(user.id, id);
+         setHasBasket(true);
+      }
+   }
+
+   if (isLoading) {
+      return  <Loader />
+   }
 
    return (
       <Container className='mt-3'>
@@ -37,7 +67,13 @@ function DevicePage(props) {
                   style={{border: '5px solid light', padding: 10}}
                >
                   <h3 style={{fonstSize:32}}>От: {device.price} руб.</h3>
-                  <Button variant='outline-dark'>Добавить в корзину</Button>
+                  <Button 
+                     disabled={hasBasket}
+                     onClick={addDevice}
+                     variant='outline-dark'
+                  >
+                     {hasBasket ? 'В корзине' : 'Добавить в корзину'}
+                  </Button>
                </Card>
             </Col>
          </Row>
@@ -57,6 +93,6 @@ function DevicePage(props) {
          </Row>
       </Container>
    );
-}
+})
 
 export default DevicePage;

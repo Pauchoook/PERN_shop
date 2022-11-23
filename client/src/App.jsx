@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { check } from "./http/userAPI";
 import { Spinner } from "react-bootstrap";
+import Loader from "./components/Loader";
 
 const App = observer(() => {
   const {user} = useContext(Context);
@@ -22,7 +23,7 @@ const App = observer(() => {
 
   if (loading) {
     return (
-      <Spinner animation='grow' />
+      <Loader />
     )
   }
 

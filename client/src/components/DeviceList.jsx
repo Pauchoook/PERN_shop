@@ -4,7 +4,7 @@ import { Row } from 'react-bootstrap';
 import { Context } from '../index';
 import DeviceItem from './DeviceItem';
 
-const DeviceList = observer((props) => {
+const DeviceList = observer(() => {
    const {devices} = useContext(Context);
 
    return (

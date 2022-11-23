@@ -17,13 +17,14 @@ const Auth = observer((props) => {
    const signIn = async () => {
       try {
          let data;
+
          if (isLogin) {
             data = await login(email, password);
          } else {
             data = await registration(email, password);
          }
    
-         user.setUser(user);
+         user.setUser(data);
          user.setIsAuth(true);
 
          navigate(SHOP_ROUTE);

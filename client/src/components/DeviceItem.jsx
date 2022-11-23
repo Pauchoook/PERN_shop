@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Col, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import start from '../assets/star.svg';
+import star from '../assets/star.svg';
 import { DEVICE_ROUTE } from '../utils/path';
 
 function DeviceItem({device}) {
@@ -19,7 +19,7 @@ function DeviceItem({device}) {
             <h5 className='text-black-50'>Samsung</h5>
             <div className="d-flex align-items-center">
                <span style={{marginRight: 5}}>{device.rating}</span>
-               <Image width={18} height={18} src={start} />
+               <Image width={18} height={18} src={star} />
             </div>
          </div>
          <span>{device.name}</span>

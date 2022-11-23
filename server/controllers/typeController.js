@@ -15,13 +15,18 @@ class TypeController {
       return res.json(types);
    }
 
-   async deleteType(req,res) {
-      const {name} = req.body;
-      const type = await Type.destroy({
-         where: {name}
-      });
+   async deleteType(req, res, next) {
+      try {
+         const {name} = req.query;
 
-      return res.json(type)
+         await Type.destroy({
+            where: {name}
+         });
+   
+         return res.json('type deleted');
+      } catch (e) {
+         next(ApiError.badRequest(e.message));
+      }  
    }
 }
 

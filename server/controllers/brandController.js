@@ -1,3 +1,4 @@
+const ApiError = require('../error/ApiError');
 const {Brand} = require('../models/models');
 
 class BrandController {
@@ -14,13 +15,18 @@ class BrandController {
       return res.json(brands);
    }
 
-   async deleteBrand(req,res) {
-      const {id} = req.params;
-      const type = await Brand.destroy({
-         where: {id}
-      });
+   async deleteBrand(req, res, next) {
+      try {
+         const {name} = req.query;
 
-      return res.json(type)
+         await Brand.destroy({
+            where: {name}
+         });
+
+         return res.json('brand deleted');
+      } catch (e) {
+         next(ApiError.badRequest(e.message));
+      }
    }
 }
 
