@@ -53,3 +53,8 @@ export const deleteDevice = async (id) => {
    const {data} = await $authHost.delete(`api${DEVICE_ROUTE}/${id}`);
    return data;
 }
+
+export const updateRating = async (id, rate) => {
+   const {data} = await $authHost.put(`api${DEVICE_ROUTE}/rating`, {id, rate});
+   return data;
+}

@@ -11,5 +11,7 @@ router.get('/', deviceController.getAll);
 router.get('/:id', deviceController.getOne);
 // удалить девайс
 router.delete('/delete/:id', deviceController.deleteDevice);
+// обновить рейтинг
+router.put('/rating', deviceController.rating);
 
 module.exports = router;

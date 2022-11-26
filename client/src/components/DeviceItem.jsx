@@ -1,12 +1,19 @@
+import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { Card, Col, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import star from '../assets/star.svg';
+import { updateRating } from '../http/deviceAPI';
 import { DEVICE_ROUTE } from '../utils/path';
 
-function DeviceItem({device}) {
+const DeviceItem = observer(({device}) => {
    const navigate = useNavigate();
-   
+
+   const rating = async (e) => {
+      e.stopPropagation();
+      await updateRating(device.id, device.rating + 1);
+   }
+
    return (
      <Col 
       md={3} 
@@ -19,13 +26,18 @@ function DeviceItem({device}) {
             <h5 className='text-black-50'>Samsung</h5>
             <div className="d-flex align-items-center">
                <span style={{marginRight: 5}}>{device.rating}</span>
-               <Image width={18} height={18} src={star} />
+               <Image 
+                  onClick={rating}
+                  width={18} 
+                  height={18} 
+                  src={star} 
+               />
             </div>
          </div>
-         <span>{device.name}</span>
+            <span>{device.name}</span>
          </Card>
      </Col>
    );
-}
+})
 
 export default DeviceItem;

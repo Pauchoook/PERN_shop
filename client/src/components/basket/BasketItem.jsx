@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { Button, Card, Col, Image } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { Context } from '../../index';
-import { fetchDeviceOne } from '../../http/deviceAPI';
+import { fetchDeviceOne, updateRating } from '../../http/deviceAPI';
 import { DEVICE_ROUTE } from '../../utils/path';
 import star from '../../assets/star.svg';
 import { countDevice, deleteDevice } from '../../http/basketAPI';
@@ -20,6 +20,11 @@ const BasketItem = observer(({deviceId, instances}) => {
    useEffect(() => {
       fetchDeviceOne(deviceId).then(data => setDevice(data));
    }, []);
+
+   const rating = async (e) => {
+      e.stopPropagation();
+      await updateRating(device.id, device.rating + 1);
+   }
    
    const counterPlus = async (e) => {
       e.stopPropagation();
@@ -58,12 +63,21 @@ const BasketItem = observer(({deviceId, instances}) => {
          onClick={() => navigate(DEVICE_ROUTE + `/${device.id}`)}
       >
             <Card style={{cursor: 'pointer', width: 200}} border='light'>
-               <Image width={150} height={150} src={process.env.REACT_APP_API_URL + device.img} />
+               <Image 
+                  width={150} 
+                  height={150} 
+                  src={process.env.REACT_APP_API_URL + device.img} 
+               />
                <div className="d-flex justify-content-between align-items-center mt-2">
                   <h5 className='text-black-50'>Samsung</h5>
                   <div className="d-flex align-items-center">
                      <span style={{marginRight: 5}}>{device.rating}</span>
-                     <Image width={18} height={18} src={star}/>
+                     <Image
+                        onClick={rating}
+                        width={18} 
+                        height={18} 
+                        src={star}
+                     />
                   </div>
                </div>
                <span>{device.name}</span>
